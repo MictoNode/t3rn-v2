@@ -104,7 +104,12 @@ sudo systemctl status t3rn-executor
 ```
 
 ## Diğer komutlar:
+
 Servis durumunu kontrol etmek için: `sudo systemctl status t3rn-executor`
+
 Servisi durdurmak için:            `sudo systemctl stop t3rn-executor`
+
 Servisi yeniden başlatmak için:    `sudo systemctl restart t3rn-executor`
+
 Servis loglarını görmek için:      `sudo journalctl -u t3rn-executor -f`
+
