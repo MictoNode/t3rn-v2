@@ -1,4 +1,4 @@
-# t3rn-v2
+# t3rn-v2 Kurulumu
 
 ## Gerekli paketleri yükle
 
@@ -64,7 +64,7 @@ Environment="LOG_PRETTY=false"
 Environment="EXECUTOR_PROCESS_BIDS_ENABLED=true"
 Environment="EXECUTOR_PROCESS_ORDERS_ENABLED=true"
 Environment="EXECUTOR_PROCESS_CLAIMS_ENABLED=true"
-Environment="EXECUTOR_MAX_L3_GAS_PRICE=100"
+Environment="EXECUTOR_MAX_L3_GAS_PRICE=1000"
 Environment="PRIVATE_KEY_LOCAL=BURAYA_ÖZEL_ANAHTARINIZI_YAZIN"
 Environment="ENABLED_NETWORKS=arbitrum-sepolia,base-sepolia,optimism-sepolia,unichain-sepolia,l2rn"
 Environment="RPC_ENDPOINTS={\"l2rn\":[\"https://b2n.rpc.caldera.xyz/http\"],\"arbt\":[\"https://arbitrum-sepolia.drpc.org\",\"https://sepolia-rollup.arbitrum.io/rpc\"],\"bast\":[\"https://base-sepolia-rpc.publicnode.com\",\"https://base-sepolia.drpc.org\"],\"opst\":[\"https://sepolia.optimism.io\",\"https://optimism-sepolia.drpc.org\"],\"unit\":[\"https://unichain-sepolia.drpc.org\",\"https://sepolia.unichain.org\"]}"
@@ -113,3 +113,59 @@ Servisi yeniden başlatmak için:    `sudo systemctl restart t3rn-executor`
 
 Servis loglarını görmek için:      `sudo journalctl -u t3rn-executor -f`
 
+# t3rn-v2 Güncelleme Komutları
+
+## Servisi durdur
+
+```bash
+sudo systemctl stop t3rn-executor
+```
+
+## Çalışma dizinine git
+
+```bash
+cd $HOME/t3rn
+```
+
+## Eski executor klasörünü yedekle
+
+```bash
+mv executor executor_backup_$(date +%Y%m%d)
+```
+
+## Son sürümü indir
+
+```bash
+curl -s https://api.github.com/repos/t3rn/executor-release/releases/latest | \
+grep -Po '"tag_name": "\K.*?(?=")' | \
+xargs -I {} wget https://github.com/t3rn/executor-release/releases/download/{}/executor-linux-{}.tar.gz
+```
+
+## Çıkart
+
+```bash
+tar -xzf executor-linux-*.tar.gz
+```
+
+## İndirilen arşivi temizle
+
+```bash
+rm executor-linux-*.tar.gz
+```
+
+## Çalıştırma izinlerini ayarla
+
+```bash
+chmod +x $HOME/t3rn/executor/executor/bin/executor
+```
+
+## Servisi yeniden başlat
+
+```bash
+sudo systemctl start t3rn-executor
+```
+
+## Logları kontrol et
+```bash
+sudo journalctl -u t3rn-executor -f
+```
