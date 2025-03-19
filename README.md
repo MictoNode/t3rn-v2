@@ -43,6 +43,8 @@ chmod +x $HOME/t3rn/executor/executor/bin/executor
 
 - `BURAYA_ÖZEL_ANAHTARINIZI_YAZIN` kısmını ve diğer düzenlemek istediğinizi yerleri unutmayın.
 
+- Eğer RPC ile ORDER'ları göndermek isterseniz yani sağlam rpcler kullanacaksanız `EXECUTOR_PROCESS_PENDING_ORDERS_FROM_API` ve `EXECUTOR_PROCESS_ORDERS_API_ENABLED` false olarak ayarlayın.
+
 ```bash
 sudo tee /etc/systemd/system/t3rn-executor.service > /dev/null <<EOF
 [Unit]
