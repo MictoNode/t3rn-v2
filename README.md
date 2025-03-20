@@ -66,6 +66,7 @@ Environment="LOG_PRETTY=false"
 Environment="EXECUTOR_PROCESS_BIDS_ENABLED=true"
 Environment="EXECUTOR_PROCESS_ORDERS_ENABLED=true"
 Environment="EXECUTOR_PROCESS_CLAIMS_ENABLED=true"
+Environment="EXECUTOR_ENABLE_BATCH_BIDING=true"
 Environment="EXECUTOR_MAX_L3_GAS_PRICE=1000"
 Environment="PRIVATE_KEY_LOCAL=BURAYA_ÖZEL_ANAHTARINIZI_YAZIN"
 Environment="ENABLED_NETWORKS=arbitrum-sepolia,base-sepolia,optimism-sepolia,unichain-sepolia,l2rn"
@@ -130,10 +131,16 @@ sudo systemctl stop t3rn-executor
 cd $HOME/t3rn
 ```
 
-## Eski executor klasörünü yedekle
+## Eski executor klasörünü yedekle veya aynı gün 2 güncelleme olursa sil
 
 ```bash
 mv executor executor_backup_$(date +%Y%m%d)
+```
+
+veya
+
+```bash
+rm -rf executor
 ```
 
 ## Son sürümü indir
