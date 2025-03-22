@@ -39,11 +39,13 @@ rm executor-linux-*.tar.gz
 chmod +x $HOME/t3rn/executor/executor/bin/executor
 ```
 
-## Systemd servis dosyasını oluştur
+## Systemd servis dosyasını oluştur 
 
 - `BURAYA_ÖZEL_ANAHTARINIZI_YAZIN` kısmını ve diğer düzenlemek istediğinizi yerleri unutmayın.
 
 - Eğer RPC ile ORDER'ları göndermek isterseniz yani sağlam rpcler kullanacaksanız `EXECUTOR_PROCESS_PENDING_ORDERS_FROM_API` ve `EXECUTOR_PROCESS_ORDERS_API_ENABLED` false olarak ayarlayın.
+
+- Zaten sağlayıcıların rpclerini kullanacaksanız bir altındaki servisi kullanın.
 
 ```bash
 sudo tee /etc/systemd/system/t3rn-executor.service > /dev/null <<EOF
@@ -59,7 +61,6 @@ Group=$USER
 WorkingDirectory=$HOME/t3rn/executor/executor/bin
 ExecStart=$HOME/t3rn/executor/executor/bin/executor
 
-# Environment variables
 Environment="ENVIRONMENT=testnet"
 Environment="LOG_LEVEL=debug"
 Environment="LOG_PRETTY=false"
@@ -67,12 +68,52 @@ Environment="EXECUTOR_PROCESS_BIDS_ENABLED=true"
 Environment="EXECUTOR_PROCESS_ORDERS_ENABLED=true"
 Environment="EXECUTOR_PROCESS_CLAIMS_ENABLED=true"
 Environment="EXECUTOR_ENABLE_BATCH_BIDING=true"
+Environment="EXECUTOR_PROCESS_PENDING_ORDERS_FROM_API=true"
+Environment="EXECUTOR_PROCESS_ORDERS_API_ENABLED=true"
 Environment="EXECUTOR_MAX_L3_GAS_PRICE=1000"
 Environment="PRIVATE_KEY_LOCAL=BURAYA_ÖZEL_ANAHTARINIZI_YAZIN"
 Environment="ENABLED_NETWORKS=arbitrum-sepolia,base-sepolia,optimism-sepolia,unichain-sepolia,l2rn"
 Environment="RPC_ENDPOINTS={\"l2rn\":[\"https://b2n.rpc.caldera.xyz/http\"],\"arbt\":[\"https://arbitrum-sepolia.drpc.org\",\"https://sepolia-rollup.arbitrum.io/rpc\"],\"bast\":[\"https://base-sepolia-rpc.publicnode.com\",\"https://base-sepolia.drpc.org\"],\"opst\":[\"https://sepolia.optimism.io\",\"https://optimism-sepolia.drpc.org\"],\"unit\":[\"https://unichain-sepolia.drpc.org\",\"https://sepolia.unichain.org\"]}"
-Environment="EXECUTOR_PROCESS_PENDING_ORDERS_FROM_API=true"
-Environment="EXECUTOR_PROCESS_ORDERS_API_ENABLED=true"
+
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+- **VEYA TEK ÖZEL RPC KULLANACAKSAN** (tenderly-alchemy rpcleri gibi)
+
+- `ARB-RPC` , `BASE-RPC` , `OP-RPC` , `UNI-RPC` yerine rpclerini yapıştır. `\` önemli silmeyin.
+
+```bash
+sudo tee /etc/systemd/system/t3rn-executor.service > /dev/null <<EOF
+[Unit]
+Description=t3rn Executor Service
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=$USER
+Group=$USER
+WorkingDirectory=$HOME/t3rn/executor/executor/bin
+ExecStart=$HOME/t3rn/executor/executor/bin/executor
+
+Environment="ENVIRONMENT=testnet"
+Environment="LOG_LEVEL=debug"
+Environment="LOG_PRETTY=false"
+Environment="EXECUTOR_PROCESS_BIDS_ENABLED=true"
+Environment="EXECUTOR_PROCESS_ORDERS_ENABLED=true"
+Environment="EXECUTOR_PROCESS_CLAIMS_ENABLED=true"
+Environment="EXECUTOR_ENABLE_BATCH_BIDING=true"
+Environment="EXECUTOR_PROCESS_PENDING_ORDERS_FROM_API=false"
+Environment="EXECUTOR_PROCESS_ORDERS_API_ENABLED=false"
+Environment="EXECUTOR_MAX_L3_GAS_PRICE=1000"
+Environment="PRIVATE_KEY_LOCAL=BURAYA_ÖZEL_ANAHTARINIZI_YAZIN"
+Environment="ENABLED_NETWORKS=arbitrum-sepolia,base-sepolia,optimism-sepolia,unichain-sepolia,l2rn"
+Environment="RPC_ENDPOINTS={\"l2rn\":[\"https://b2n.rpc.caldera.xyz/http\"],\"arbt\":[\"ARB-RPC\"],\"bast\":[\"BASE-RPC\"],\"opst\":[\"OP-RPC\"],\"unit\":[\"UNI-RPC\"]}"
 
 Restart=always
 RestartSec=10
