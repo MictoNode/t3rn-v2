@@ -23,19 +23,19 @@ grep -Po '"tag_name": "\K.*?(?=")' | \
 xargs -I {} wget https://github.com/t3rn/executor-release/releases/download/{}/executor-linux-{}.tar.gz
 ```
 
-### Çıkart
+#### Çıkart
 
 ```bash
 tar -xzf executor-linux-*.tar.gz
 ```
 
-### İndirdileni temizle
+#### İndirdileni temizle
 
 ```bash
 rm executor-linux-*.tar.gz
 ```
 
-### Çalıştırma izni
+#### Çalıştırma izni
 
 ```bash
 chmod +x $HOME/t3rn/executor/executor/bin/executor
@@ -47,19 +47,19 @@ chmod +x $HOME/t3rn/executor/executor/bin/executor
 wget https://github.com/t3rn/executor-release/releases/download/v0.53.1/executor-linux-v0.53.1.tar.gz
 ```
 
-### Çıkart
+#### Çıkart
 
 ```bash
 tar -xzf executor-linux-v0.53.1.tar.gz
 ```
 
-### İndirdileni temizle
+#### İndirdileni temizle
 
 ```bash
 rm executor-linux-*.tar.gz
 ```
 
-### Çalıştırma izni
+#### Çalıştırma izni
 
 ```bash
 chmod +x $HOME/t3rn/executor/executor/bin/executor
@@ -69,11 +69,11 @@ chmod +x $HOME/t3rn/executor/executor/bin/executor
 
 - `BURAYA_ÖZEL_ANAHTARINIZI_YAZIN` kısmını ve diğer düzenlemek istediğinizi yerleri unutmayın.
 
-- Eğer RPC ile ORDER'ları göndermek isterseniz yani sağlam rpcler kullanacaksanız `EXECUTOR_PROCESS_PENDING_ORDERS_FROM_API` ve `EXECUTOR_PROCESS_ORDERS_API_ENABLED` false olarak ayarlayın.
+- Sağlayıcıların rpclerini kullanacaksanız bir altındaki servisi kullanın.
 
-- Zaten sağlayıcıların rpclerini kullanacaksanız bir altındaki servisi kullanın.
+- Executor son versiyonu kullanacaksanız `Environment="RPC_ENDPOINTS={\"l2rn\":[\"L2RN-RPC\"],\"arbt\":[\"ARBT-RPC\"],\"bast\":[\"BAST-RPC\"],\"opst\":[\"OPST-RPC\"],\"unit\":[\"UNIT-RPC\"],\"blst\":[\"BLST-RPC\"]}"` şeklinde değiştirmeniz gerekiyor haberiniz olsun. Blast eklenmiş.
 
-- Executor son versiyonu kullanacaksanız `Environment="RPC_ENDPOINTS={\"l2rn\":[\"L2RN-RPC\"],\"arbt\":[\"ARBT-RPC\"],\"bast\":[\"BAST-RPC\"],\"opst\":[\"OPST-RPC\"],\"unit\":[\"UNIT-RPC\"],\"blst\":[\"BLST-RPC\"]}"` şeklinde değiştirmeniz gerekiyor haberiniz olsun. Alttaki servis artık v0.57.0 altındaki versiyonlar içindir.
+- Yine blast çalıştırmak istemiyorum diyorsanız `Environment="NETWORKS_DISABLED=blast-sepolia"` ekleyin.
 
 ```bash
 sudo tee /etc/systemd/system/t3rn-executor.service > /dev/null <<EOF
@@ -100,7 +100,6 @@ Environment="EXECUTOR_PROCESS_PENDING_ORDERS_FROM_API=true"
 Environment="EXECUTOR_PROCESS_ORDERS_API_ENABLED=true"
 Environment="EXECUTOR_MAX_L3_GAS_PRICE=1000"
 Environment="PRIVATE_KEY_LOCAL=BURAYA_ÖZEL_ANAHTARINIZI_YAZIN"
-Environment="ENABLED_NETWORKS=arbitrum-sepolia,base-sepolia,optimism-sepolia,unichain-sepolia,l2rn"
 Environment="RPC_ENDPOINTS={\"l2rn\":[\"https://b2n.rpc.caldera.xyz/http\"],\"arbt\":[\"https://arbitrum-sepolia.drpc.org\",\"https://sepolia-rollup.arbitrum.io/rpc\"],\"bast\":[\"https://base-sepolia-rpc.publicnode.com\",\"https://base-sepolia.drpc.org\"],\"opst\":[\"https://sepolia.optimism.io\",\"https://optimism-sepolia.drpc.org\"],\"unit\":[\"https://unichain-sepolia.drpc.org\",\"https://sepolia.unichain.org\"]}"
 
 Restart=always
@@ -140,7 +139,6 @@ Environment="EXECUTOR_PROCESS_PENDING_ORDERS_FROM_API=false"
 Environment="EXECUTOR_PROCESS_ORDERS_API_ENABLED=false"
 Environment="EXECUTOR_MAX_L3_GAS_PRICE=1000"
 Environment="PRIVATE_KEY_LOCAL=BURAYA_ÖZEL_ANAHTARINIZI_YAZIN"
-Environment="ENABLED_NETWORKS=arbitrum-sepolia,base-sepolia,optimism-sepolia,unichain-sepolia,l2rn"
 Environment="RPC_ENDPOINTS={\"l2rn\":[\"https://b2n.rpc.caldera.xyz/http\"],\"arbt\":[\"ARB-RPC\"],\"bast\":[\"BASE-RPC\"],\"opst\":[\"OP-RPC\"],\"unit\":[\"UNI-RPC\"]}"
 
 Restart=always
@@ -185,6 +183,8 @@ Servisi durdurmak için:            `sudo systemctl stop t3rn-executor`
 Servisi yeniden başlatmak için:    `sudo systemctl restart t3rn-executor`
 
 Servis loglarını görmek için:      `sudo journalctl -u t3rn-executor -f`
+
+Son olarak eğer çalıştırmak istemediğiniz ağ varsa servis'in bir alt satırına bunu ekleyebilirsiniz. Örnektir blast,arb,uni iptal eder. `Environment="NETWORKS_DISABLED=blast-sepolia,arbitrum-sepolia,unichain-sepolia"`
 
 # t3rn-v2 Güncelleme Komutları
 
