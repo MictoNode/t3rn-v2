@@ -13,6 +13,8 @@ mkdir -p $HOME/t3rn
 cd $HOME/t3rn
 ```
 
+**Son sürümü veya v0.53.1 sürümünü seçerek devam edin.**
+
 ## Son sürümü indir
 
 ```bash
