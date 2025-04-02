@@ -71,7 +71,7 @@ chmod +x $HOME/t3rn/executor/executor/bin/executor
 
 - Sağlayıcıların rpclerini kullanacaksanız bir altındaki servisi kullanın.
 
-- Executor son versiyonu kullanacaksanız `Environment="RPC_ENDPOINTS={\"l2rn\":[\"L2RN-RPC\"],\"arbt\":[\"ARBT-RPC\"],\"bast\":[\"BAST-RPC\"],\"opst\":[\"OPST-RPC\"],\"unit\":[\"UNIT-RPC\"],\"blst\":[\"BLST-RPC\"]}"` şeklinde değiştirmeniz gerekiyor haberiniz olsun. Blast eklenmiş.
+- Executor son versiyonu kullanacaksanız `Environment="RPC_ENDPOINTS={\"l2rn\":[\"T3RN-RPC1\",\"T3RN-RPC2\"],\"arbt\":[\"ARBT-RPC\"],\"bast\":[\"BAST-RPC\"],\"opst\":[\"OPST-RPC\"],\"unit\":[\"UNIT-RPC\"],\"blst\":[\"BLST-RPC\"]}"` şeklinde değiştirmeniz gerekiyor haberiniz olsun. Blast eklenmiş.
 
 - Yine blast çalıştırmak istemiyorum diyorsanız `Environment="NETWORKS_DISABLED=blast-sepolia"` ekleyin.
 
@@ -100,7 +100,7 @@ Environment="EXECUTOR_PROCESS_PENDING_ORDERS_FROM_API=true"
 Environment="EXECUTOR_PROCESS_ORDERS_API_ENABLED=true"
 Environment="EXECUTOR_MAX_L3_GAS_PRICE=1000"
 Environment="PRIVATE_KEY_LOCAL=BURAYA_ÖZEL_ANAHTARINIZI_YAZIN"
-Environment="RPC_ENDPOINTS={\"l2rn\":[\"https://b2n.rpc.caldera.xyz/http\"],\"arbt\":[\"https://arbitrum-sepolia.drpc.org\",\"https://sepolia-rollup.arbitrum.io/rpc\"],\"bast\":[\"https://base-sepolia-rpc.publicnode.com\",\"https://base-sepolia.drpc.org\"],\"opst\":[\"https://sepolia.optimism.io\",\"https://optimism-sepolia.drpc.org\"],\"unit\":[\"https://unichain-sepolia.drpc.org\",\"https://sepolia.unichain.org\"]}"
+Environment="RPC_ENDPOINTS={\"l2rn\":[\"https://b2n.rpc.caldera.xyz/http\",\"https://b2n-testnet.blockpi.network/v1/rpc/public\"],\"arbt\":[\"https://arbitrum-sepolia.drpc.org\",\"https://sepolia-rollup.arbitrum.io/rpc\"],\"bast\":[\"https://base-sepolia-rpc.publicnode.com\",\"https://base-sepolia.drpc.org\"],\"opst\":[\"https://sepolia.optimism.io\",\"https://optimism-sepolia.drpc.org\"],\"unit\":[\"https://unichain-sepolia.drpc.org\",\"https://sepolia.unichain.org\"]}"
 
 Restart=always
 RestartSec=10
@@ -139,7 +139,7 @@ Environment="EXECUTOR_PROCESS_PENDING_ORDERS_FROM_API=false"
 Environment="EXECUTOR_PROCESS_ORDERS_API_ENABLED=false"
 Environment="EXECUTOR_MAX_L3_GAS_PRICE=1000"
 Environment="PRIVATE_KEY_LOCAL=BURAYA_ÖZEL_ANAHTARINIZI_YAZIN"
-Environment="RPC_ENDPOINTS={\"l2rn\":[\"https://b2n.rpc.caldera.xyz/http\"],\"arbt\":[\"ARB-RPC\"],\"bast\":[\"BASE-RPC\"],\"opst\":[\"OP-RPC\"],\"unit\":[\"UNI-RPC\"]}"
+Environment="RPC_ENDPOINTS={\"l2rn\":[\"https://b2n.rpc.caldera.xyz/http\",\"https://b2n-testnet.blockpi.network/v1/rpc/public\"],\"arbt\":[\"ARB-RPC\"],\"bast\":[\"BASE-RPC\"],\"opst\":[\"OP-RPC\"],\"unit\":[\"UNI-RPC\"]}"
 
 Restart=always
 RestartSec=10
